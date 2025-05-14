@@ -12,7 +12,7 @@ use Yii;
  * @property string $start_date
  * @property string $end_date
  *
- * @property ServicesTrips[] $servicesTrips
+ * @property Services[] $services
  * @property TripsUsers[] $tripsUsers
  * @property Users[] $users
  */
@@ -56,13 +56,13 @@ class Trips extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[ServicesTrips]].
+     * Gets query for [[Services]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getServicesTrips()
+    public function getServices()
     {
-        return $this->hasMany(ServicesTrips::class, ['trip_id' => 'id']);
+        return $this->hasMany(Services::class, ['trip_id' => 'id']);
     }
 
     /**

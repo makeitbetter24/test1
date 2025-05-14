@@ -9,13 +9,14 @@ use Yii;
  *
  * @property string $id
  * @property string $service_type_id
+ * @property string $trip_id
  * @property string $title
  * @property string $start_time
  * @property string $end_time
  * @property int $status
  *
  * @property ServiceTypes $serviceType
- * @property ServicesTrips[] $servicesTrips
+ * @property Trips $trip
  */
 class Services extends \yii\db\ActiveRecord
 {
@@ -36,14 +37,15 @@ class Services extends \yii\db\ActiveRecord
     {
         return [
             [['status'], 'default', 'value' => 0],
-            [['id', 'service_type_id', 'title', 'start_time', 'end_time'], 'required'],
+            [['id', 'service_type_id', 'trip_id', 'title', 'start_time', 'end_time'], 'required'],
             [['start_time', 'end_time'], 'safe'],
             [['status'], 'integer'],
-            [['id'], 'string', 'max' => 36],
+            [['id', 'trip_id'], 'string', 'max' => 36],
             [['service_type_id'], 'string', 'max' => 4],
             [['title'], 'string', 'max' => 255],
             [['id'], 'unique'],
             [['service_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => ServiceTypes::class, 'targetAttribute' => ['service_type_id' => 'id']],
+            [['trip_id'], 'exist', 'skipOnError' => true, 'targetClass' => Trips::class, 'targetAttribute' => ['trip_id' => 'id']],
         ];
     }
 
@@ -55,6 +57,7 @@ class Services extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'service_type_id' => 'Service Type ID',
+            'trip_id' => 'Trip ID',
             'title' => 'Title',
             'start_time' => 'Start Time',
             'end_time' => 'End Time',
@@ -73,13 +76,13 @@ class Services extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[ServicesTrips]].
+     * Gets query for [[Trip]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getServicesTrips()
+    public function getTrip()
     {
-        return $this->hasMany(ServicesTrips::class, ['service_id' => 'id']);
+        return $this->hasOne(Trips::class, ['id' => 'trip_id']);
     }
 
 }
