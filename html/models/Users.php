@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use Yii;
+use app\components\behaviors\SetUuidBehavior;
 
 /**
  * This is the model class for table "users".
@@ -15,8 +15,6 @@ use Yii;
  */
 class Users extends \yii\db\ActiveRecord
 {
-
-
     /**
      * {@inheritdoc}
      */
@@ -28,10 +26,22 @@ class Users extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => SetUuidBehavior::class,
+            ],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rules()
     {
         return [
-            [['id', 'name'], 'required'],
+            [['name'], 'required'],
             [['id'], 'string', 'max' => 36],
             [['name'], 'string', 'max' => 255],
             [['id'], 'unique'],

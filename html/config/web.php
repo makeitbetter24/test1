@@ -43,14 +43,13 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '<module:(profiles)>/<action:(index|delete|new)>/<id:[\w-]+>' => '<module>/default/<action>',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
