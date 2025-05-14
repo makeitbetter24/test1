@@ -1,0 +1,43 @@
+version: '3.5'
+
+services:
+  test1-app:
+    build: './apache'
+    container_name: test1-app
+    ports:
+      - "80:80"
+    environment:
+      - APACHE_RUN_USER=#1000
+      - APACHE_RUN_GROUP=#1000
+    volumes:
+      - ./html:/var/www/html
+
+  test1-db:
+    image: mysql:5.7
+    container_name: test1-db
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+
+  test1-adminer:
+    container_name: test1-adminer
+    image: adminer
+    depends_on:
+      - test1-db
+    environment:
+      ADMINER_DEFAULT_DB_DRIVER: ${DB_CONNECTION}
+      ADMINER_DEFAULT_DB_HOST: mysql-db
+      ADMINER_DEFAULT_DB_NAME: ${DB_USERNAME}
+      ADMINER_DESIGN: nette
+      ADMINER_PLUGINS: tables-filter tinymce
+    ports:
+      - "8089:8080"
+
+volumes:
+  vendor:
