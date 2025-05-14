@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\SetUuidBehavior;
 use Yii;
 
 /**
@@ -33,11 +34,23 @@ class Services extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => SetUuidBehavior::class,
+            ],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rules()
     {
         return [
             [['status'], 'default', 'value' => 0],
-            [['id', 'service_type_id', 'trip_id', 'title', 'start_time', 'end_time'], 'required'],
+            [['service_type_id', 'trip_id', 'title', 'start_time', 'end_time'], 'required'],
             [['start_time', 'end_time'], 'safe'],
             [['status'], 'integer'],
             [['id', 'trip_id'], 'string', 'max' => 36],

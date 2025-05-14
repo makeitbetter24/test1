@@ -1,3 +1,4 @@
+-- Adminer 5.2.1 MySQL 5.7.44 dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -47,9 +48,9 @@ INSERT INTO `service_types` (`id`, `name`) VALUES
 DROP TABLE IF EXISTS `trips`;
 CREATE TABLE `trips` (
   `id` char(36) NOT NULL,
-  `name` int(11) NOT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -71,3 +72,6 @@ CREATE TABLE `users` (
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- 2025-05-14 17:04:25 UTC

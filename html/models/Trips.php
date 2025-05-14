@@ -2,15 +2,16 @@
 
 namespace app\models;
 
+use app\components\behaviors\SetUuidBehavior;
 use Yii;
 
 /**
  * This is the model class for table "trips".
  *
  * @property string $id
- * @property int $name
- * @property string $start_date
- * @property string $end_date
+ * @property string $name
+ * @property string|null $start_date
+ * @property string|null $end_date
  *
  * @property Services[] $services
  * @property TripsUsers[] $tripsUsers
@@ -31,13 +32,26 @@ class Trips extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => SetUuidBehavior::class,
+            ],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rules()
     {
         return [
-            [['id', 'name', 'start_date', 'end_date'], 'required'],
-            [['name'], 'integer'],
+            [['start_date', 'end_date'], 'default', 'value' => null],
+            [['name'], 'required'],
             [['start_date', 'end_date'], 'safe'],
             [['id'], 'string', 'max' => 36],
+            [['name'], 'string', 'max' => 255],
             [['id'], 'unique'],
         ];
     }

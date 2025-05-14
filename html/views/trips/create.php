@@ -4,6 +4,7 @@ use yii\helpers\Html;
 
 /** @var yii\web\View $this */
 /** @var app\models\Trips $model */
+/** @var array $usersOptions */
 
 $this->title = 'Create Trips';
 $this->params['breadcrumbs'][] = ['label' => 'Trips', 'url' => ['index']];
@@ -15,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'usersOptions' => $usersOptions,
     ]) ?>
 
 </div>

@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\models\Trips;
+use app\models\TripsUsers;
+use app\models\Users;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -78,17 +80,28 @@ class TripsController extends Controller
     public function actionCreate()
     {
         $model = new Trips();
+        $usersOptions = [];
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            $data = $this->request->post();
+            if ($model->load($data) && $model->save()) {
+                if (!empty($data['Trips']['users'])) {
+                    TripsUsers::saveTripUsers($model->id, $data['Trips']['users']);
+                }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
             $model->loadDefaultValues();
+            $model->setAttribute('start_date', date('Y-m-d'));
+            $model->setAttribute('end_date', date('Y-m-d'));
+            foreach (Users::find()->all() as $user) {
+                $usersOptions[$user->id] = $user->name;
+            }
         }
 
         return $this->render('create', [
             'model' => $model,
+            'usersOptions' => $usersOptions,
         ]);
     }
 

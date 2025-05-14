@@ -70,4 +70,14 @@ class TripsUsers extends \yii\db\ActiveRecord
         return $this->hasOne(Users::class, ['id' => 'user_id']);
     }
 
+    public static function saveTripUsers($tripId, $usersIds)
+    {
+        foreach ($usersIds as $userId) {
+            $model = new self();
+            $model->setAttribute('trip_id', $tripId);
+            $model->setAttribute('user_id', $userId);
+            $model->save();
+        }
+    }
+
 }
