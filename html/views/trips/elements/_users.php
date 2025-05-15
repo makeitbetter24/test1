@@ -7,6 +7,8 @@
 
 ?>
 
+<h4>Users</h4>
+
 <?php if ($model->isNewRecord): ?>
 
     <?= $form->field($model, 'users')->dropDownList($usersOptions, ['multiple' => true, 'selected' => true]) ?>

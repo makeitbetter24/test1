@@ -15,7 +15,6 @@ use Yii;
 class ServiceTypes extends \yii\db\ActiveRecord
 {
 
-
     /**
      * {@inheritdoc}
      */

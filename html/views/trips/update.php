@@ -4,6 +4,7 @@ use yii\helpers\Html;
 
 /** @var yii\web\View $this */
 /** @var app\models\Trips $model */
+/** @var yii\data\ActiveDataProvider $services */
 
 $this->title = 'Update Trips: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Trips', 'url' => ['index']];
@@ -18,5 +19,7 @@ $this->params['breadcrumbs'][] = 'Update';
         'model' => $model,
         'usersOptions' => [],
     ]) ?>
+
+    <?= $this->render('elements/_services', ['model' => $model, 'services' => $services]);?>
 
 </div>

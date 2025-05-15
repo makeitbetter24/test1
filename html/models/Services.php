@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\behaviors\RecalculateDatesBehavior;
 use app\components\behaviors\SetUuidBehavior;
 use Yii;
 
@@ -21,7 +22,9 @@ use Yii;
  */
 class Services extends \yii\db\ActiveRecord
 {
-
+    const STATUS_DRAFT = 0;
+    const STATUS_ACTIVE = 1;
+    const STATUS_CANCEL = 2;
 
     /**
      * {@inheritdoc}
@@ -37,9 +40,8 @@ class Services extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            [
-                'class' => SetUuidBehavior::class,
-            ],
+            ['class' => SetUuidBehavior::class],
+            ['class' => RecalculateDatesBehavior::class],
         ];
     }
 

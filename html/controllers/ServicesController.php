@@ -2,16 +2,17 @@
 
 namespace app\controllers;
 
-use app\models\Users;
+use app\models\Services;
+use app\models\ServiceTypes;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * UsersController implements the CRUD actions for Users model.
+ * ServicesController implements the CRUD actions for Services model.
  */
-class UsersController extends Controller
+class ServicesController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,68 +33,35 @@ class UsersController extends Controller
     }
 
     /**
-     * Lists all Users models.
-     *
-     * @return string
-     */
-    public function actionIndex()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Users::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single Users model.
-     * @param string $id ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new Users model.
+     * Creates a new Services model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Users();
+        $model = new Services();
+        $typesOptions = [];
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['trips/view', 'id' => $model->trip_id]);
             }
         } else {
             $model->loadDefaultValues();
+            $model->setAttribute('trip_id', $this->request->get('trip'));
+            foreach (ServiceTypes::find()->all() as $type) {
+                $typesOptions[$type->id] = $type->name;
+            }
         }
 
         return $this->render('create', [
             'model' => $model,
+            'typesOptions' => $typesOptions,
         ]);
     }
 
     /**
-     * Updates an existing Users model.
+     * Updates an existing Services model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id ID
      * @return string|\yii\web\Response
@@ -102,18 +70,24 @@ class UsersController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $typesOptions = [];
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['trips/view', 'id' => $model->trip_id]);
+        }
+
+        foreach (ServiceTypes::find()->all() as $type) {
+            $typesOptions[$type->id] = $type->name;
         }
 
         return $this->render('update', [
             'model' => $model,
+            'typesOptions' => $typesOptions,
         ]);
     }
 
     /**
-     * Deletes an existing Users model.
+     * Deletes an existing Services model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id ID
      * @return \yii\web\Response
@@ -127,15 +101,15 @@ class UsersController extends Controller
     }
 
     /**
-     * Finds the Users model based on its primary key value.
+     * Finds the Services model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id ID
-     * @return Users the loaded model
+     * @return Services the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Users::findOne(['id' => $id])) !== null) {
+        if (($model = Services::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

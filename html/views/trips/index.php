@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'start_date',
             'end_date',
             [
-                'class' => ActionColumn::className(),
+                'class' => ActionColumn::class,
                 'urlCreator' => function ($action, Trips $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }

@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Services;
 use app\models\Trips;
 use app\models\TripsUsers;
 use app\models\Users;
@@ -24,7 +25,7 @@ class TripsController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
@@ -69,6 +70,9 @@ class TripsController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'services' => new ActiveDataProvider([
+                'query' => Services::find()->where(['trip_id' => $id]),
+            ]),
         ]);
     }
 
@@ -122,6 +126,9 @@ class TripsController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+            'services' => new ActiveDataProvider([
+                'query' => Services::find()->where(['trip_id' => $id]),
+            ]),
         ]);
     }
 
